@@ -31,7 +31,7 @@ Fantastic! Feel free to submit a Pull Request with any suggestions or change. I 
 *Oh, and no more than 3 commits in 1 PR (Rebase people!)*
 
 ---
-[Follow @stuntguy3000 on Twitter] (I probably won't post updates, but I do rewteet a ton of stuff).
+[Follow @stuntguy3000 on Twitter] - I probably won't post updates, but I do rewteet a ton of stuff.
 
 [Developed under the MIT Lisence (Click here for more Information)]:https://github.com/stuntguy3000/GameCore/blob/master/LICENSE
 [Follow @stuntguy3000 on Twitter]:https://twitter.com/stuntguy3000
