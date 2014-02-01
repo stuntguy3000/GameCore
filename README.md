@@ -1,7 +1,7 @@
 GameCore
 =========
 
-A simple to use API containing everything you need to create a Bukkit Minigame.
+A simple to use API containing the essentials for creating Bukkit Minigames.
 
 **[Developed under the MIT Lisence (Click here for more Information)]**
 
@@ -16,6 +16,7 @@ Most (if not all) Minigames require three things
 ###The project is split into two packages###
  1. The API for other plugins
  2. The plugin itself
+
 ---
 ##When this project is completed...##
 * It will be available via the central Maven repository
