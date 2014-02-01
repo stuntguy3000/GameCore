@@ -1,0 +1,6 @@
+name: GameCore
+main: me.stuntguy3000.GameCore.plugin.GameCorePlugin
+version: ${project.version}
+commands:
+    GameCore:
+        description: "Display plugin information."
