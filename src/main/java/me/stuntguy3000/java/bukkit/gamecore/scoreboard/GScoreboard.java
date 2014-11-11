@@ -37,6 +37,10 @@ public abstract class GScoreboard {
 
             for (Field field : gScoreboard.getFields()) {
                 GScoreboardField gScoreboardField = field.getAnnotation(GScoreboardField.class);
+                if (gScoreboardField == null) {
+                    continue;
+                }
+
                 String value = null;
 
                 try {
@@ -50,7 +54,7 @@ public abstract class GScoreboard {
                     continue;
                 }
 
-                if (gScoreboardField != null && value != null) {
+                if (value != null) {
                     Score score = objective.getScore(value);
                     score.setScore(gScoreboardField.score());
 
