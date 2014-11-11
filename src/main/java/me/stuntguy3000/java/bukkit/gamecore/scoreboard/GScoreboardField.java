@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface GScoreboardField {
     int score();
-
     String scoreboardTeam() default "";
 }
