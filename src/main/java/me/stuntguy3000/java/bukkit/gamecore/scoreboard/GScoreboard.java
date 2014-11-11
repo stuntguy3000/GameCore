@@ -44,7 +44,6 @@ public abstract class GScoreboard {
                 String value = null;
 
                 try {
-                    field.setAccessible(true);
                     Object object = field.get(field);
                     if (object instanceof String) {
                         value = (String) object;
