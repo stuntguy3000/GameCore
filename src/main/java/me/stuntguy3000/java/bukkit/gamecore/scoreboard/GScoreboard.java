@@ -8,11 +8,12 @@ import org.bukkit.scoreboard.Team;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public abstract class GScoreboard {
     private Class<? extends GScoreboard> gScoreboard;
     private Objective objective;
-    private HashMap<String, Score> scores;
+    private HashMap<UUID, HashMap<String, Score>> scores;
 
     /**
      * Creates a new instance
@@ -26,6 +27,15 @@ public abstract class GScoreboard {
     }
 
     /**
+     * Remove a player's scores
+
+     * @param uuid UUID of the player
+     */
+    public void removePlayer(UUID uuid) {
+        scores.remove(uuid);
+    }
+
+    /**
      * Update the Scoreboard for the Player <p>This method will create a new instance if the scores HashMap is not
      * instantiated</p>
      *
@@ -35,19 +45,18 @@ public abstract class GScoreboard {
         if (scores == null) {
             scores = new HashMap<>();
 
+            HashMap<String, Score> userScores = new HashMap<>();
+
             for (Field field : gScoreboard.getFields()) {
                 GScoreboardField gScoreboardField = field.getAnnotation(GScoreboardField.class);
                 if (gScoreboardField == null) {
                     continue;
                 }
 
-                String value = null;
+                String value;
 
                 try {
-                    Object object = field.get(field);
-                    if (object instanceof String) {
-                        value = (String) object;
-                    }
+                    value = (String) field.get(String.class);
                 } catch (IllegalAccessException e) {
                     // Ignore it
                     continue;
@@ -57,23 +66,32 @@ public abstract class GScoreboard {
                     Score score = objective.getScore(value);
                     score.setScore(gScoreboardField.score());
 
-                    scores.put(field.getName(), score);
+                    userScores.put(field.getName(), score);
 
                     if (gScoreboardField.scoreboardTeam() != null) {
                         Team team = objective.getScoreboard().getTeam(gScoreboardField.scoreboardTeam());
+
+                        if (team == null) {
+                            team = objective.getScoreboard().registerNewTeam(gScoreboardField.scoreboardTeam());
+                        }
+
                         team.addPlayer(score.getPlayer());
                     }
                 }
             }
-        } else {
-            for (Map.Entry<String, Score> id : scores.entrySet()) {
-                try {
-                    Field field = gScoreboard.getDeclaredField(id.getKey());
-                    GScoreboardField gScoreboardField = field.getAnnotation(GScoreboardField.class);
 
-                    id.getValue().setScore(gScoreboardField.score());
-                } catch (NoSuchFieldException ignore) {
-                    // Should never happen, so we will ignore it
+            scores.put(player.getUniqueId(), userScores);
+        } else {
+            for (HashMap<String, Score> id : scores.values()) {
+                for (Map.Entry<String, Score> score : id.entrySet()) {
+                    try {
+                        Field field = gScoreboard.getDeclaredField(score.getKey());
+                        GScoreboardField gScoreboardField = field.getAnnotation(GScoreboardField.class);
+
+                        score.getValue().setScore(gScoreboardField.score());
+                    } catch (NoSuchFieldException ignore) {
+                        // Should never happen, so we will ignore it
+                    }
                 }
             }
         }
