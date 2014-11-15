@@ -46,9 +46,9 @@ public abstract class GScoreboard {
             scores = new HashMap<>();
 
             HashMap<String, Score> userScores = new HashMap<>();
-
             for (Field field : gScoreboard.getFields()) {
                 GScoreboardField gScoreboardField = field.getAnnotation(GScoreboardField.class);
+
                 if (gScoreboardField == null) {
                     continue;
                 }
@@ -56,9 +56,8 @@ public abstract class GScoreboard {
                 String value;
 
                 try {
-                    value = (String) field.get(String.class);
+                    value = (String) field.get(this);
                 } catch (IllegalAccessException e) {
-                    // Ignore it
                     continue;
                 }
 
