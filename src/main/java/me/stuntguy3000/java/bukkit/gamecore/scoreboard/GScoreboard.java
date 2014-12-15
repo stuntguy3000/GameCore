@@ -27,6 +27,15 @@ public abstract class GScoreboard {
     }
 
     /**
+     * Get the Objective of the Scoreboard
+     *
+     * @return Objective objective of the Scoreboard
+     */
+    public Objective getObjective() {
+        return objective;
+    }
+
+    /**
      * Remove a player's scores
 
      * @param uuid UUID of the player
@@ -43,10 +52,12 @@ public abstract class GScoreboard {
      */
     public void update(Player player) {
         if (scores == null) {
+
             scores = new HashMap<>();
 
             HashMap<String, Score> userScores = new HashMap<>();
-            for (Field field : gScoreboard.getFields()) {
+
+            for (Field field : gScoreboard.getDeclaredFields()) {
                 GScoreboardField gScoreboardField = field.getAnnotation(GScoreboardField.class);
 
                 if (gScoreboardField == null) {
@@ -56,13 +67,19 @@ public abstract class GScoreboard {
                 String value;
 
                 try {
+                    field.setAccessible(true);
                     value = (String) field.get(this);
                 } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                     continue;
                 }
 
                 if (value != null) {
+                    if (value.length() > 16) {
+                        value = value.substring(0, 15);
+                    }
                     Score score = objective.getScore(value);
+                    score.setScore(Integer.MIN_VALUE);
                     score.setScore(gScoreboardField.score());
 
                     userScores.put(field.getName(), score);
