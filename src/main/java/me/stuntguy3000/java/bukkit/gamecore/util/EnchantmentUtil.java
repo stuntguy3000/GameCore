@@ -9,7 +9,11 @@ public class EnchantmentUtil {
 
     private static Pattern REPLACE_FORMAT = Pattern.compile("[\\s_]");
 
+    private static HashMap<String, Enchantment> enchantmentAssociations;
+
     static {
+        enchantmentAssociations = new HashMap<>();
+
         addValue(Enchantment.OXYGEN, "Respiration", "Underwater");
         addValue(Enchantment.WATER_WORKER, "Aqua Affinity", "Underwater Mine", "Underwater Mining");
         addValue(Enchantment.PROTECTION_PROJECTILE, "Projectile Protection");
@@ -35,8 +39,6 @@ public class EnchantmentUtil {
             addValue(e, e.getName());
         }
     }
-
-    private static HashMap<String, Enchantment> enchantmentAssociations = new HashMap<>();
 
     /**
      * Add a new set of values for conversion

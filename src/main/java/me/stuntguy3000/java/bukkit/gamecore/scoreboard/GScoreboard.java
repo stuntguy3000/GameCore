@@ -79,7 +79,7 @@ public abstract class GScoreboard {
                         value = value.substring(0, 15);
                     }
                     Score score = objective.getScore(value);
-                    score.setScore(Integer.MIN_VALUE);
+                    score.setScore(1);
                     score.setScore(gScoreboardField.score());
 
                     userScores.put(field.getName(), score);
