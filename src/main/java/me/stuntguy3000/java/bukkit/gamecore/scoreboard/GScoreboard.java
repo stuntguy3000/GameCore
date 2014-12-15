@@ -91,7 +91,7 @@ public abstract class GScoreboard {
                             team = objective.getScoreboard().registerNewTeam(gScoreboardField.scoreboardTeam());
                         }
 
-                        team.addPlayer(score.getPlayer());
+                        team.addEntry(score.getEntry());
                     }
                 }
             }
