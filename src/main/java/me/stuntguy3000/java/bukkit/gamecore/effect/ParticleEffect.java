@@ -241,50 +241,6 @@ public enum ParticleEffect {
     }
 
     /**
-     * Displays a particle effect which is only visible for all players within a certain range in the world of @param
-     * center
-     *
-     * @param offsetX Maximum distance particles can fly away from the center on the x-axis
-     * @param offsetY Maximum distance particles can fly away from the center on the y-axis
-     * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed   Display speed of the particles
-     * @param amount  Amount of particles
-     * @param center  Center location of the effect
-     * @param range   Range of the visibility (Maximum range for particles is usually 16, but it can differ for some
-     *                types)
-     * @throws IllegalArgumentException If the particle effect requires water and none is at the center location
-     * @see ParticleEffectPacket
-     * @see ParticleEffectPacket#sendTo(Location, double)
-     */
-    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
-        if (requiresWater && !isWater(center)) {
-            throw new IllegalArgumentException("There is no water at the center location");
-        }
-        new ParticleEffectPacket(name, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
-    }
-
-    /**
-     * Displays a particle effect which is only visible for the specified players
-     *
-     * @param offsetX Maximum distance particles can fly away from the center on the x-axis
-     * @param offsetY Maximum distance particles can fly away from the center on the y-axis
-     * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
-     * @param speed   Display speed of the particles
-     * @param amount  Amount of particles
-     * @param center  Center location of the effect
-     * @param players Receivers of the effect
-     * @throws IllegalArgumentException If the particle effect requires water and none is at the center location
-     * @see ParticleEffectPacket
-     * @see ParticleEffectPacket#sendTo(Location, List)
-     */
-    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
-        if (requiresWater && !isWater(center)) {
-            throw new IllegalArgumentException("There is no water at the center location");
-        }
-        new ParticleEffectPacket(name, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
-    }
-
-    /**
      * Displays a block crack (block break) particle effect which is only visible for all players within a certain range
      * in the world of @param center
      *
@@ -435,24 +391,6 @@ public enum ParticleEffect {
     }
 
     /**
-     * Returns the name of this particle effect
-     *
-     * @return The name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Determine if water is required for this particle effect to display properly
-     *
-     * @return Whether water is required or not
-     */
-    public boolean getRequiresWater() {
-        return requiresWater;
-    }
-
-    /**
      * Determine if an id is a block id
      *
      * @param id Id to check
@@ -472,6 +410,68 @@ public enum ParticleEffect {
     private static boolean isWater(Location location) {
         Material material = location.getBlock().getType();
         return material == Material.WATER || material == Material.STATIONARY_WATER;
+    }
+
+    /**
+     * Displays a particle effect which is only visible for all players within a certain range in the world of @param
+     * center
+     *
+     * @param offsetX Maximum distance particles can fly away from the center on the x-axis
+     * @param offsetY Maximum distance particles can fly away from the center on the y-axis
+     * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
+     * @param range   Range of the visibility (Maximum range for particles is usually 16, but it can differ for some
+     *                types)
+     * @throws IllegalArgumentException If the particle effect requires water and none is at the center location
+     * @see ParticleEffectPacket
+     * @see ParticleEffectPacket#sendTo(Location, double)
+     */
+    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
+        if (requiresWater && !isWater(center)) {
+            throw new IllegalArgumentException("There is no water at the center location");
+        }
+        new ParticleEffectPacket(name, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
+    }
+
+    /**
+     * Displays a particle effect which is only visible for the specified players
+     *
+     * @param offsetX Maximum distance particles can fly away from the center on the x-axis
+     * @param offsetY Maximum distance particles can fly away from the center on the y-axis
+     * @param offsetZ Maximum distance particles can fly away from the center on the z-axis
+     * @param speed   Display speed of the particles
+     * @param amount  Amount of particles
+     * @param center  Center location of the effect
+     * @param players Receivers of the effect
+     * @throws IllegalArgumentException If the particle effect requires water and none is at the center location
+     * @see ParticleEffectPacket
+     * @see ParticleEffectPacket#sendTo(Location, List)
+     */
+    public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
+        if (requiresWater && !isWater(center)) {
+            throw new IllegalArgumentException("There is no water at the center location");
+        }
+        new ParticleEffectPacket(name, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
+    }
+
+    /**
+     * Returns the name of this particle effect
+     *
+     * @return The name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Determine if water is required for this particle effect to display properly
+     *
+     * @return Whether water is required or not
+     */
+    public boolean getRequiresWater() {
+        return requiresWater;
     }
 
     /**
@@ -531,7 +531,7 @@ public enum ParticleEffect {
          * <b>Note:</b> These fields only have to be initialized once, so it will return if {@link #initialized} is
          * already set to <code>true</code>
          *
-         * @throws VersionIncompatibleException if accessed packets, fields or methods differ in your bukkit version
+         * @throws VersionIncompatibleException if accessed packets, fields or methods differ in your plugin version
          */
         public static void initialize() throws VersionIncompatibleException {
             if (initialized) {
@@ -545,7 +545,7 @@ public enum ParticleEffect {
                 playerConnection = ReflectionUtils.getField("EntityPlayer", ReflectionUtils.PackageType.MINECRAFT_SERVER, false, "playerConnection");
                 sendPacket = ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("Packet"));
             } catch (Exception exception) {
-                throw new VersionIncompatibleException("Your current bukkit version seems to be incompatible with this library", exception);
+                throw new VersionIncompatibleException("Your current plugin version seems to be incompatible with this library", exception);
             }
             initialized = true;
         }
@@ -679,7 +679,7 @@ public enum ParticleEffect {
         }
 
         /**
-         * Represents a runtime exception that is thrown if a bukkit version is not compatible with this library
+         * Represents a runtime exception that is thrown if a plugin version is not compatible with this library
          * <p/>
          * This class is part of the <b>ParticleEffect Library</b> and follows the same usage conditions
          *

@@ -437,15 +437,6 @@ public final class ReflectionUtils {
         }
 
         /**
-         * Returns the primitive class of this data type
-         *
-         * @return The primitive class
-         */
-        public Class<?> getPrimitive() {
-            return primitive;
-        }
-
-        /**
          * Returns the primitive class of the data type with the given reference class
          *
          * @param clazz Reference class of the data type
@@ -484,15 +475,6 @@ public final class ReflectionUtils {
                 types[index] = getPrimitive(objects[index].getClass());
             }
             return types;
-        }
-
-        /**
-         * Returns the reference class of this data type
-         *
-         * @return The reference class
-         */
-        public Class<?> getReference() {
-            return reference;
         }
 
         /**
@@ -535,6 +517,24 @@ public final class ReflectionUtils {
             }
             return types;
         }
+
+        /**
+         * Returns the primitive class of this data type
+         *
+         * @return The primitive class
+         */
+        public Class<?> getPrimitive() {
+            return primitive;
+        }
+
+        /**
+         * Returns the reference class of this data type
+         *
+         * @return The reference class
+         */
+        public Class<?> getReference() {
+            return reference;
+        }
     }
 
     /**
@@ -547,7 +547,7 @@ public final class ReflectionUtils {
      */
     public enum PackageType {
         MINECRAFT_SERVER("net.minecraft.server." + getServerVersion()),
-        CRAFTBUKKIT("org.bukkit.craftbukkit." + getServerVersion()),
+        CRAFTBUKKIT("org.plugin.craftbukkit." + getServerVersion()),
         CRAFTBUKKIT_BLOCK(CRAFTBUKKIT, "block"),
         CRAFTBUKKIT_CHUNKIO(CRAFTBUKKIT, "chunkio"),
         CRAFTBUKKIT_COMMAND(CRAFTBUKKIT, "command"),
@@ -589,6 +589,15 @@ public final class ReflectionUtils {
         }
 
         /**
+         * Returns the version of your server
+         *
+         * @return The server version
+         */
+        public static String getServerVersion() {
+            return Bukkit.getServer().getClass().getPackage().getName().substring(23);
+        }
+
+        /**
          * Returns the class with the given name
          *
          * @param className Name of the desired class
@@ -608,15 +617,6 @@ public final class ReflectionUtils {
             return path;
         }
 
-        /**
-         * Returns the version of your server
-         *
-         * @return The server version
-         */
-        public static String getServerVersion() {
-            return Bukkit.getServer().getClass().getPackage().getName().substring(23);
-        }
-
         // Override for convenience
         @Override public String toString() {
             return path;
@@ -626,7 +626,7 @@ public final class ReflectionUtils {
     /**
      * Represents an enumeration of all packet types that are featured in <b>Minecraft 1.7.10</b>
      * <p/>
-     * If this enumeration is no longer up-to-date, please let me know in my <a href="http://forums.bukkit.org/threads/lib-1-7-particleeffect-v1-4.154406">forum
+     * If this enumeration is no longer up-to-date, please let me know in my <a href="http://forums.plugin.org/threads/lib-1-7-particleeffect-v1-4.154406">forum
      * post</a>
      * <p/>
      * This class is part of the <b>ReflectionUtils</b> and follows the same usage conditions
