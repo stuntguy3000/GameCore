@@ -547,7 +547,7 @@ public final class ReflectionUtils {
      */
     public enum PackageType {
         MINECRAFT_SERVER("net.minecraft.server." + getServerVersion()),
-        CRAFTBUKKIT("org.plugin.craftbukkit." + getServerVersion()),
+        CRAFTBUKKIT("org.bukkit.craftbukkit." + getServerVersion()),
         CRAFTBUKKIT_BLOCK(CRAFTBUKKIT, "block"),
         CRAFTBUKKIT_CHUNKIO(CRAFTBUKKIT, "chunkio"),
         CRAFTBUKKIT_COMMAND(CRAFTBUKKIT, "command"),
@@ -626,7 +626,7 @@ public final class ReflectionUtils {
     /**
      * Represents an enumeration of all packet types that are featured in <b>Minecraft 1.7.10</b>
      * <p/>
-     * If this enumeration is no longer up-to-date, please let me know in my <a href="http://forums.plugin.org/threads/lib-1-7-particleeffect-v1-4.154406">forum
+     * If this enumeration is no longer up-to-date, please let me know in my <a href="http://forums.bukkit.org/threads/lib-1-7-particleeffect-v1-4.154406">forum
      * post</a>
      * <p/>
      * This class is part of the <b>ReflectionUtils</b> and follows the same usage conditions

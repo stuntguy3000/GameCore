@@ -531,7 +531,7 @@ public enum ParticleEffect {
          * <b>Note:</b> These fields only have to be initialized once, so it will return if {@link #initialized} is
          * already set to <code>true</code>
          *
-         * @throws VersionIncompatibleException if accessed packets, fields or methods differ in your plugin version
+         * @throws VersionIncompatibleException if accessed packets, fields or methods differ in your Bukkit version
          */
         public static void initialize() throws VersionIncompatibleException {
             if (initialized) {
@@ -545,7 +545,7 @@ public enum ParticleEffect {
                 playerConnection = ReflectionUtils.getField("EntityPlayer", ReflectionUtils.PackageType.MINECRAFT_SERVER, false, "playerConnection");
                 sendPacket = ReflectionUtils.getMethod(playerConnection.getType(), "sendPacket", ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("Packet"));
             } catch (Exception exception) {
-                throw new VersionIncompatibleException("Your current plugin version seems to be incompatible with this library", exception);
+                throw new VersionIncompatibleException("Your current Bukkit version seems to be incompatible with this library", exception);
             }
             initialized = true;
         }
@@ -679,7 +679,7 @@ public enum ParticleEffect {
         }
 
         /**
-         * Represents a runtime exception that is thrown if a plugin version is not compatible with this library
+         * Represents a runtime exception that is thrown if a Bukkit version is not compatible with this library
          * <p/>
          * This class is part of the <b>ParticleEffect Library</b> and follows the same usage conditions
          *
