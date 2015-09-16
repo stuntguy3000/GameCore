@@ -15,5 +15,16 @@ public class NumberUtil {
             throw new NumberFormatException(string + " isn't a number!");
         }
     }
+
+    /**
+     * Auto sizes an Bukkit inventory
+     * <p>Enter the amount of spaces required, converts into rows</p>
+     *
+     * @param original Integer the amount of spaces needed
+     * @return Integer the amount of rows needed
+     */
+    public static int autoSizeInventory(int original) {
+        return (original >= 0 ? ((original + 8) / 9) * 9 : (original / 9) * 9);
+    }
 }
     

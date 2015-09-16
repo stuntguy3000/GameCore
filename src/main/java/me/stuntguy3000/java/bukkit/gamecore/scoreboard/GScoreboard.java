@@ -24,6 +24,8 @@ public abstract class GScoreboard {
     public GScoreboard(Objective objective, Class<? extends GScoreboard> gScoreboard) {
         this.objective = objective;
         this.gScoreboard = gScoreboard;
+
+        registerTeams();
     }
 
     /**
@@ -42,6 +44,39 @@ public abstract class GScoreboard {
      */
     public void removePlayer(UUID uuid) {
         scores.remove(uuid);
+    }
+
+    /**
+     * Register and initialise all teams
+     */
+    public void registerTeams() {
+        for (Field field : gScoreboard.getDeclaredFields()) {
+            GScoreboardField gScoreboardField = field.getAnnotation(GScoreboardField.class);
+
+            if (gScoreboardField == null) {
+                continue;
+            }
+
+            String value;
+
+            try {
+                field.setAccessible(true);
+                value = (String) field.get(this);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                continue;
+            }
+
+            if (value != null) {
+                if (gScoreboardField.scoreboardTeam() != null) {
+                    Team team = objective.getScoreboard().getTeam(gScoreboardField.scoreboardTeam());
+
+                    if (team == null) {
+                        objective.getScoreboard().registerNewTeam(gScoreboardField.scoreboardTeam());
+                    }
+                }
+            }
+        }
     }
 
     /**

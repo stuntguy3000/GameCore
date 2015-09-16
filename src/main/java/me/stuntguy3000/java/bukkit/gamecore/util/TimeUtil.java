@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
     /**
-     * converts time (in milliseconds) to human-readable format
+     * Converts time (in milliseconds) to human-readable format
      * "<dd:><hh:>mm:ss"
      */
     public static String millisecondsToHumanReadable(long duration) {
@@ -26,6 +26,16 @@ public class TimeUtil {
             res = String.format("%dd%02d:%02d:%02d", days, hours, minutes, seconds);
         }
         return res;
+    }
+
+    /**
+     * Converts seconds into minutes and seconds
+     *
+     * @param seconds Integer the amount of seconds
+     * @return String the formatted text
+     */
+    public static String formatMinutesSeconds(int seconds) {
+        return String.format("%d:%02d", seconds / 60, seconds % 60);
     }
 }
     
